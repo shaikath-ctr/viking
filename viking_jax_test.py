@@ -1,7 +1,7 @@
 from absl import app
 import jax
 import jax.numpy as jnp
-from google3.experimental.users.tomoakitomi.afhi import viking_jax
+import viking_jax
 
 jax.config.update("jax_disable_jit", False)
 

@@ -1,0 +1,9 @@
+jax
+flax
+optax
+numpy
+librosa
+matplotlib
+scipy
+tqdm
+absl-py
