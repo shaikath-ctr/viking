@@ -59,3 +59,15 @@ pytype_strict_contrib_test(
         "//third_party/py/numpy",
     ],
 )
+
+pytype_strict_contrib_test(
+    name = "viking_parity_test",
+    srcs = ["viking_parity_test.py"],
+    deps = [
+        ":viking_jax",
+        "//third_party/py/absl/testing:absltest",
+        "//third_party/py/flax:core",
+        "//third_party/py/jax",
+        "//third_party/py/numpy",
+    ],
+)

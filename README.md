@@ -34,6 +34,10 @@ The primary objective of this port is to decouple Viking from Google's internal 
 *   **`viking_jax_test.py`**: Local testing suite verifying:
     *   Gradients of the custom complex absolute function.
     *   Forward pass shapes, parameter initialization, parameter counts, and overall numerical stability.
+*   **`viking_parity_test.py`**: A complete, Google3-independent numerical parity verification framework containing:
+    *   `numpy_viking_generator`: A pure NumPy/SciPy equivalent of the entire pipeline (framing, STFT, scanned multi-parallel LSTM, mask calculation, ISTFT, and padding).
+    *   `VikingWeightTranspiler`: A conversion utility mapping PyTorch (i-f-g-o order) or TensorFlow (custom order, e.g., i-g-f-o) concatenated weights/biases directly into Flax parameter nested structures.
+    *   Automated tests validating mathematical equivalence between the JAX/Flax implementation and NumPy reference to within 1e-5 absolute tolerance.
 *   **`simplified_seanet.ipynb`**: Original SEANet baseline training/evaluation notebook. This serves as the reference blueprint for integrating Viking as a direct encoder/decoder/masking replacement.
 *   **`requirements.txt`**: Package specifications for setting up dependencies.
 *   **`README.md`**: This guide.
@@ -58,10 +62,14 @@ pip install -r requirements.txt
 
 ### 2. Verify the Port
 
-Run the local test suite using the isolated environment's Python interpreter:
+Run the local test suites using the isolated environment's Python interpreter:
 
 ```bash
+# Run basic model and gradient verification checks
 python3 viking_jax_test.py
+
+# Run step-by-step NumPy reference parity and transpiler verification tests
+python3 viking_parity_test.py
 ```
 
 The output will display:
@@ -69,6 +77,8 @@ The output will display:
 *   Correct forward shapes.
 *   Initialization shapes for all parallel branches, LSTM cells, and hub interconnections.
 *   Verification that output values and gradients remain free of `NaN`s.
+*   Passing parity assertions proving mathematical equivalence between standard NumPy references and JAX model structures (to within 1e-5 absolute tolerance).
+*   Success messages for transpiling both PyTorch-style and TensorFlow-style weight matrices into Flax.
 
 ---
 
