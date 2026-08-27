@@ -38,7 +38,7 @@ The primary objective of this port is to decouple Viking from Google's internal 
     *   `numpy_viking_generator`: A pure NumPy/SciPy equivalent of the entire pipeline (framing, STFT, scanned multi-parallel LSTM, mask calculation, ISTFT, and padding).
     *   `VikingWeightTranspiler`: A conversion utility mapping PyTorch (i-f-g-o order) or TensorFlow (custom order, e.g., i-g-f-o) concatenated weights/biases directly into Flax parameter nested structures.
     *   Automated tests validating mathematical equivalence between the JAX/Flax implementation and NumPy reference to within 1e-5 absolute tolerance.
-*   **`simplified_seanet.ipynb`**: Original SEANet baseline training/evaluation notebook. This serves as the reference blueprint for integrating Viking as a direct encoder/decoder/masking replacement.
+*   **`simplified_seanet.ipynb`**: Integrated training/evaluation notebook supporting both **SEANet** and **Viking JAX** generators. Features a dynamic `USE_VIKING = True` switch to easily compare and train models.
 *   **`requirements.txt`**: Package specifications for setting up dependencies.
 *   **`README.md`**: This guide.
 
@@ -83,5 +83,5 @@ The output will display:
 ---
 
 ## 🔮 Next Steps & Discussion Points for Tomo
-*   **Pipeline Integration:** Discuss swapping the core encoder/decoder blocks in the `simplified_seanet.ipynb` notebook with `viking_jax` components to benchmark SEANet vs. Viking directly.
-*   **Pre-trained Weights:** Plan if/how any pre-trained google3 checkpoints should be exported and loaded into this standalone JAX format.
+*   **Benchmark Comparison:** Run training in the integrated `simplified_seanet.ipynb` notebook with both `USE_VIKING = True` and `USE_VIKING = False` to evaluate and compare numerical stability, convergence speed, and speech enhancement quality (PESQ/STOI) of Viking vs. SEANet baseline.
+*   **Pre-trained Weights Loading:** Use `VikingWeightTranspiler` to load pre-trained PyTorch or TensorFlow checkpoints directly into the notebook for zero-shot audio denoising.
